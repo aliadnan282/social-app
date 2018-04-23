@@ -1,9 +1,9 @@
 buildscript {
 
     ext.versions = [
-            'kotlin': '1.2.31',
+            'kotlin': '1.2.40',
             'supportLibrary': '27.1.1',
-            'googleServices': '12.0.1',
+            'googleServices': '15.0.0',
             'jacoco': '0.8.1'
     ]
     
