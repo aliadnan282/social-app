@@ -1,7 +1,7 @@
 buildscript {
 
     ext.versions = [
-            'kotlin': '1.2.40',
+            'kotlin': '1.2.41',
             'supportLibrary': '27.1.1',
             'googleServices': '15.0.0',
             'jacoco': '0.8.1'
@@ -13,7 +13,7 @@ buildscript {
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.1'
+        classpath 'com.android.tools.build:gradle:3.1.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
         classpath 'com.google.gms:google-services:3.2.1'
         classpath "org.jacoco:org.jacoco.core:$versions.jacoco"
