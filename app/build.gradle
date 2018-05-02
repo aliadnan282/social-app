@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'org.jetbrains.kotlin.android'
+apply plugin: 'org.jetbrains.kotlin.kapt'
+apply plugin: 'com.getkeepsafe.dexcount'
 
 apply from: "$rootDir/gradle/coverage.gradle"
 
@@ -13,6 +15,8 @@ android {
         versionCode 1
         versionName '1.0'
 
+        vectorDrawables.useSupportLibrary = true
+
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
 
@@ -21,6 +25,8 @@ android {
         test.java.srcDirs += 'src/test/kotlin'
         androidTest.java.srcDirs += 'src/androidTest/kotlin'
     }
+
+    dataBinding.enabled true
 
     signingConfigs {
         debug {
@@ -40,6 +46,8 @@ android {
 
     buildTypes {
         debug {
+            buildConfigField 'String', 'GOOGLE_REQUEST_ID_TOKEN', "\"$System.env.GOOGLE_REQUEST_ID_TOKEN_DEVELOPMENT\""
+
             testCoverageEnabled true
 
             applicationIdSuffix '.dev'
@@ -47,6 +55,8 @@ android {
         }
 
         release {
+            buildConfigField 'String', 'GOOGLE_REQUEST_ID_TOKEN', "\"$System.env.GOOGLE_REQUEST_ID_TOKEN_RELEASE\""
+
             signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -58,12 +68,27 @@ android {
     }
 }
 
+kotlin.experimental.coroutines 'enable'
+
 dependencies {
     implementation "com.android.support:appcompat-v7:$versions.supportLibrary"
+    implementation "com.android.support:design:$versions.supportLibrary"
+
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.0'
+
+    implementation "android.arch.lifecycle:extensions:$versions.arch"
+    kapt "android.arch.lifecycle:compiler:$versions.arch"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.5'
 
-    implementation "com.google.firebase:firebase-core:$versions.googleServices"
+    implementation 'com.google.firebase:firebase-core:15.0.2'
+    implementation 'com.google.firebase:firebase-auth:15.1.0'
+
+    implementation "com.google.android.gms:play-services-auth:$versions.googleServices"
+
+    implementation "org.kodein.di:kodein-di-generic-jvm:$versions.kodein"
+    implementation "org.kodein.di:kodein-di-framework-android:$versions.kodein"
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.robolectric:robolectric:3.8'
